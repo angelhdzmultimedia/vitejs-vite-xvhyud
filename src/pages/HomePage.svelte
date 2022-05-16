@@ -69,9 +69,7 @@ import Fa from 'svelte-fa'
   >
   <span  class:done={task.isDone}>{task.name}</span>
   </div>
-  <Button on:click={() => deleteTask(task)} icon='faTrash'>
-  
-  </Button>
+  <Button color='bg-red-600' on:click={() => deleteTask(task)} icon='faTrash'></Button>
   </li>
 {/each}
 </div>
