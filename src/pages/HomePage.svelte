@@ -11,14 +11,20 @@ import Fa from 'svelte-fa'
     }
   ]
 
-  let activeFilter = 'all'
+  const FilterStatus = {
+    all: 'All',
+    pending: 'Pending',
+    done: 'Done'
+  }
+
+  let activeFilter = FilterStatus.all
   let filters = ['All', 'Pending', 'Done']
 
   let filteredTasks = []
   $: {
-    activeFilter === 'pending' 
+    activeFilter ===  FilterStatus.pending
     ? filteredTasks = tasks.filter(item => !item.isDone)
-    : activeFilter === 'done'
+    : activeFilter === FilterStatus.done
     ? filteredTasks = tasks.filter(item => item.isDone)
     : filteredTasks = tasks
   }
@@ -36,6 +42,10 @@ import Fa from 'svelte-fa'
     }]
     newTask = ''
   }
+
+  function setFilter(filter) {
+    activeFilter = filter
+  }
 </script>
 
 <main>
@@ -44,15 +54,20 @@ import Fa from 'svelte-fa'
 <span class=" font-bold">Svelte TypeScript To Do List</span>
 <div class="flex flex-row gap-2">
 {#each filters as filter}
-<Button label={filter}></Button>
+<Button isActive={activeFilter === filter} on:click={() => setFilter(filter)} label={filter}></Button>
 {/each}
 </div>
 <div class="tasks flex flex-col w-full">
 {#each filteredTasks as task}
   <li class="task flex flex-row justify-between items-center mx-10">
   <div>
-  <input type="checkbox">
-  <span>{task.name}</span>
+  <input 
+  
+  bind:checked={task.isDone} 
+  type="checkbox"
+  on:changed={(event) => task.iDone = event.target.checked}
+  >
+  <span  class:done={task.isDone}>{task.name}</span>
   </div>
   <Button on:click={() => deleteTask(task)} icon='faTrash'>
   
@@ -60,10 +75,12 @@ import Fa from 'svelte-fa'
   </li>
 {/each}
 </div>
+<div>
  <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
-        Username
+        
       </label>
       <input bind:value={newTask} class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Task Name">
+</div>
 <Button on:click={addTask} label="Add Task"></Button>
 </div>
 </main>
@@ -76,5 +93,9 @@ import Fa from 'svelte-fa'
 
   .task {
     list-style: none;
+  }
+
+  .done {
+    text-decoration: line-through;
   }
 </style>

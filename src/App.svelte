@@ -1,6 +1,6 @@
 <script lang="ts">
 
-  import logo from './assets/svelte.png'
+ 
   import HomePage from './pages/HomePage.svelte'
     import AboutPage from './pages/AboutPage.svelte'
   import {Router, Route, Link} from 'svelte-navigator'
