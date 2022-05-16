@@ -20,14 +20,13 @@ import Fa from 'svelte-fa'
   let activeFilter = FilterStatus.all
   let filters = ['All', 'Pending', 'Done']
 
-  let filteredTasks = []
-  $: {
-    activeFilter ===  FilterStatus.pending
+
+  $: filteredTasks = activeFilter ===  FilterStatus.pending
     ? filteredTasks = tasks.filter(item => !item.isDone)
     : activeFilter === FilterStatus.done
     ? filteredTasks = tasks.filter(item => item.isDone)
     : filteredTasks = tasks
-  }
+  
 
   function deleteTask(task) {
     tasks = tasks.filter(item => item !== task)
@@ -77,7 +76,7 @@ import Fa from 'svelte-fa'
  <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
         
       </label>
-      <input bind:value={newTask} class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Task Name">
+      <input bind:value={newTask} class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  type="text" placeholder="Task Name">
 </div>
 <Button on:click={addTask} label="Add Task"></Button>
 </div>
